@@ -9,7 +9,13 @@
     "lint": "eslint",
     "test": "vitest run",
     "fonts": "node scripts/fetch-fonts.mjs",
-    "assets:brand": "tsx scripts/make-brand.ts"
+    "assets:brand": "tsx scripts/make-brand.ts",
+    "assets:plans": "tsx scripts/make-plans.ts",
+    "assets:renders": "tsx scripts/capture-renders.ts",
+    "assets:placeholders": "tsx scripts/make-placeholders.ts",
+    "assets:horde": "tsx scripts/generate-horde.ts",
+    "assets:promote": "tsx scripts/promote-horde.ts",
+    "assets:openverse": "tsx scripts/fetch-openverse.ts"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",

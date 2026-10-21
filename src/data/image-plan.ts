@@ -31,9 +31,9 @@ const hordePrompt = {
 } as const;
 
 const interiorQuery = {
-  residential: "modern apartment living room",
+  residential: "apartment interior bedroom",
   commercial: "modern office lobby interior",
-  "duplex-villa": "modern house interior staircase",
+  "duplex-villa": "modern home interior",
 } as const;
 
 interface ProjectPlan {
@@ -46,20 +46,20 @@ interface ProjectPlan {
 
 const projectPlans: ProjectPlan[] = [
   { slug: "arboretum-residences", name: "Arboretum Residences", type: "residential",
-    render: { floors: 13, seed: 11, sky: "day", az: 28, el: 12, dist: 14 },
-    renderAlt: { floors: 13, seed: 11, sky: "dusk", az: -35, el: 9, dist: 13 } },
+    render: { floors: 13, seed: 11, sky: "day", az: 28, el: 12, dist: 16 },
+    renderAlt: { floors: 13, seed: 11, sky: "dusk", az: -35, el: 9, dist: 15 } },
   { slug: "kalpa-business-centre", name: "Kalpa Business Centre", type: "commercial",
-    render: { floors: 18, seed: 23, sky: "day", az: -24, el: 10, dist: 17 },
-    renderAlt: { floors: 18, seed: 23, sky: "dusk", az: 32, el: 8, dist: 16 } },
+    render: { floors: 18, seed: 23, sky: "day", az: -24, el: 10, dist: 21 },
+    renderAlt: { floors: 18, seed: 23, sky: "dusk", az: 32, el: 8, dist: 20 } },
   { slug: "purbachal-green-court", name: "Purbachal Green Court", type: "residential",
-    render: { floors: 10, seed: 37, sky: "day", az: 40, el: 14, dist: 12 },
-    renderAlt: { floors: 10, seed: 37, sky: "day", az: -20, el: 22, dist: 12 } },
+    render: { floors: 10, seed: 37, sky: "day", az: 40, el: 14, dist: 14 },
+    renderAlt: { floors: 10, seed: 37, sky: "day", az: -20, el: 22, dist: 14 } },
   { slug: "nirjhor-duplexes", name: "Nirjhor Duplexes", type: "duplex-villa",
     render: { floors: 3, seed: 41, sky: "day", az: 30, el: 11, dist: 8 },
     renderAlt: { floors: 3, seed: 41, sky: "dusk", az: -28, el: 8, dist: 8 } },
   { slug: "dhanmondi-terraces", name: "Dhanmondi Terraces", type: "residential",
-    render: { floors: 9, seed: 53, sky: "day", az: -30, el: 13, dist: 11 },
-    renderAlt: { floors: 9, seed: 53, sky: "dusk", az: 24, el: 10, dist: 11 } },
+    render: { floors: 9, seed: 53, sky: "day", az: -30, el: 13, dist: 13 },
+    renderAlt: { floors: 9, seed: 53, sky: "dusk", az: 24, el: 10, dist: 13 } },
   { slug: "lakeview-villa-row", name: "Lakeview Villa Row", type: "duplex-villa",
     render: { floors: 4, seed: 67, sky: "day", az: 22, el: 12, dist: 9 },
     renderAlt: { floors: 4, seed: 67, sky: "dusk", az: -34, el: 9, dist: 9 } },
@@ -85,15 +85,15 @@ for (const p of projectPlans) {
 
 slots.push(
   { src: "/images/site/hero-still.webp", w: 1600, h: 1400, source: "render",
-    render: { floors: 14, seed: 11, sky: "day", az: 28, el: 14, dist: 13 },
+    render: { floors: 14, seed: 11, sky: "day", az: 28, el: 14, dist: 20 },
     alt: "Render of a white concrete tower with planted terraces on every few floors" },
   { src: "/images/site/landowner.webp", w: 2000, h: 1200, source: "render",
-    render: { floors: 12, seed: 71, sky: "dusk", az: 18, el: 7, dist: 15 },
+    render: { floors: 12, seed: 71, sky: "dusk", az: 18, el: 7, dist: 19 },
     alt: "Residential tower at dusk with lit windows and planted terraces" },
   { src: "/images/site/about.webp", w: 1600, h: 1000, source: "openverse",
-    query: "architects reviewing building plans", alt: "Team reviewing building plans on a table" },
+    query: "construction site building", alt: "Team reviewing building plans on a table" },
   { src: "/images/site/office.webp", w: 1200, h: 900, source: "openverse",
-    query: "modern office reception", alt: "Reception area of a modern office" },
+    query: "office reception desk interior", alt: "Reception area of a modern office" },
 );
 
 export const imageSlots: ImageSlot[] = slots;
