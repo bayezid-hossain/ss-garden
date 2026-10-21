@@ -110,11 +110,14 @@ Adding a project means adding one entry; no component changes. Six demo projects
 
 ## Images
 
-Krea is not available and the free Pollinations test gave low-resolution, watermarked output, so images come from three sources:
+Krea is not available (no balance) and the free Pollinations test gave low-resolution, watermarked output. Tests of the free alternatives gave these results: Stable Horde (anonymous) produced a decent, watermark-free apartment exterior at 576x384, and Openverse CC0 search returned usable interiors but nothing for apartments or rooftop gardens. Images therefore come from four sources:
 
-1. **Hero and project exteriors:** renders of our own Three.js tower, captured at different angles, building heights and lighting (daylight and dusk), one set per project. Captured with a headless browser script and exported to WebP.
-2. **Interiors, landowner and about images:** photos found through the Openverse API (no key). CC0 / public domain first, then CC-BY. Each used photo is recorded in `CREDITS.md` with source URL, author and licence; CC-BY photos also get a credit line in the footer.
-3. **Fallback:** any slot with no suitable photo is a labelled placeholder, and the final report lists those slots.
+1. **Hero and featured project renders:** renders of our own Three.js tower, captured at different angles, building heights and lighting (daylight and dusk). Captured with a headless browser script and exported to WebP.
+2. **Exteriors, rooftop and apartment gallery shots, card images:** generated with Stable Horde. Anonymous requests are capped at 637x637 px (so about 576x384), which suits cards and gallery thumbnails but not full-width heroes. Several candidates are generated per slot and the best is kept. If the owner supplies a free AI Horde API key, sizes up to 1024 px become possible.
+3. **Interiors and landowner/about images:** Openverse photos (no key) or Horde images, whichever looks better per slot. CC0 / public domain first, then CC-BY. Each used photo is recorded in `CREDITS.md` with source URL, author and licence; CC-BY photos also get a credit line in the footer.
+4. **Fallback:** any slot with no suitable image is a labelled placeholder, and the final report lists those slots.
+
+AI-generated images are demo content and are replaced by real project photos and renders before launch.
 
 Files are stored in `public/images/` as WebP, sized per slot, with explicit width and height to avoid layout shift.
 
@@ -142,7 +145,7 @@ Files are stored in `public/images/` as WebP, sized per slot, with explicit widt
 
 ## Risks
 
-- **Image coverage:** Openverse CC0 results were thin for apartments and rooftop gardens, so some slots may stay placeholders.
+- **Image coverage and queue time:** Openverse CC0 results were thin for apartments and rooftop gardens, and Stable Horde queue times vary from under a minute to over an hour, so generation runs in the background and some slots may stay placeholders.
 - **3D on low-end phones:** mitigated by lazy loading, lower pixel ratio, pause off-screen and a still fallback.
 - **cPanel mail:** `mail()` may land in spam on some hosts; an SMTP option can follow later if needed.
 - **Reference site access:** trikonarchitects.com blocks bots, so the reference structure came from Internet Archive copies of its projects page and Mirza Bari page. Its home page could not be retrieved, so the home layout is original.
