@@ -94,9 +94,6 @@ for (const p of projectPlans) {
 }
 
 slots.push(
-  { src: "/images/site/hero-still.webp", w: 1400, h: 1400, source: "horde", gen: { w: 512, h: 512 }, upscale: true,
-    prompt: `photograph looking up at a modern luxury residential tower in Dhaka Bangladesh, white concrete facade with deep green planted terraces on every few floors, clear blue sky, ${PHOTO}`,
-    alt: "Modern apartment tower with planted terraces against a blue sky" },
   { src: "/images/site/landowner.webp", w: 2000, h: 1200, source: "horde", gen: { w: 576, h: 384 }, upscale: true,
     prompt: `photograph of a newly built modern residential building with green terraces beside an open plot of land in Dhaka Bangladesh, ${DUSK}, ${PHOTO}`,
     alt: "Residential building at dusk with lit windows and planted terraces" },

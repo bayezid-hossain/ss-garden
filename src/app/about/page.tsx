@@ -57,7 +57,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1400px] px-4 py-20 md:px-8 md:py-28" aria-labelledby="team-title">
+      <section id="team" className="mx-auto max-w-[1400px] px-4 py-20 md:px-8 md:py-28" aria-labelledby="team-title">
         <h2 id="team-title" className="text-4xl md:text-6xl">The team</h2>
         <ul className="mt-12 grid gap-x-16 gap-y-8 md:grid-cols-2">
           {team.map((t) => (

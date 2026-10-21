@@ -41,6 +41,9 @@ export function FeaturedPan({ projects }: { projects: Project[] }) {
   }, []);
 
   return (
+    // The outer div is the node React removes on navigation. GSAP wraps the pinned section in a
+    // pin-spacer, so the section itself must never be the root React tries to detach.
+    <div>
     <section ref={wrap} aria-labelledby="featured-title" className="h-[100dvh] overflow-hidden motion-reduce:overflow-x-auto">
       <div
         ref={track}
@@ -80,5 +83,6 @@ export function FeaturedPan({ projects }: { projects: Project[] }) {
         ))}
       </div>
     </section>
+    </div>
   );
 }

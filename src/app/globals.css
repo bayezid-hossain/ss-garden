@@ -91,3 +91,9 @@ h1, h2, h3 {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Hero banner: slow push-in on the active slide, like a background video. */
+@keyframes hero-drift {
+  from { transform: scale(1) translate3d(0, 0, 0); }
+  to { transform: scale(1.12) translate3d(-1.5%, -1%, 0); }
+}
