@@ -1,26 +1,93 @@
 @import "tailwindcss";
+@import "./fonts.css";
 
+/* Palette: Forest Monolith. Stone-green neutrals plus the logo green. One accent only.
+   z-index scale: nav 40, dialog uses the browser top layer, render-capture page 100. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --bg: #f1f3ee;
+  --surface: #e4e8df;
+  --surface-2: #d6dcd0;
+  --text: #121812;
+  --muted: #465044;
+  --line: #bcc4b5;
+  --field-line: #66705f;
+  --accent: #2b7a16;
+  --accent-ink: #f6faf3;
+  --danger: #a3261b;
+  color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root:not([data-theme="light"]) {
+    --bg: #0e130f;
+    --surface: #161d17;
+    --surface-2: #1f2820;
+    --text: #e8ede6;
+    --muted: #a3ad9f;
+    --line: #2d382e;
+    --field-line: #7f8b7a;
+    --accent: #7fcf4f;
+    --accent-ink: #0e130f;
+    --danger: #ff8f80;
+    color-scheme: dark;
   }
 }
 
+:root[data-theme="dark"] {
+  --bg: #0e130f;
+  --surface: #161d17;
+  --surface-2: #1f2820;
+  --text: #e8ede6;
+  --muted: #a3ad9f;
+  --line: #2d382e;
+  --field-line: #7f8b7a;
+  --accent: #7fcf4f;
+  --accent-ink: #0e130f;
+  --danger: #ff8f80;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-field: var(--field-line);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-danger: var(--danger);
+}
+
+@theme {
+  --font-display: "Cabinet Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Satoshi", ui-sans-serif, system-ui, sans-serif;
+  --color-scrim: #0b100c;
+  --color-on-image: #f4f7f1;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.03em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

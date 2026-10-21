@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
-    "fonts": "node scripts/fetch-fonts.mjs"
+    "fonts": "node scripts/fetch-fonts.mjs",
+    "assets:brand": "tsx scripts/make-brand.ts"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
