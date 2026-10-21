@@ -1,6 +1,6 @@
 import { ButtonLink } from "../ui/Button";
 import { Reveal } from "../ui/Reveal";
-import { HeroTower } from "./HeroTower";
+import { HeroImage } from "./HeroImage";
 import { imageRef } from "@/data/image-plan";
 
 export function Hero() {
@@ -23,7 +23,7 @@ export function Hero() {
         </Reveal>
       </div>
       <div className="relative h-[52dvh] min-h-[360px] lg:h-[78dvh]">
-        <HeroTower still={imageRef("/images/site/hero-still.webp")} />
+        <HeroImage image={imageRef("/images/site/hero-still.webp")} />
       </div>
     </section>
   );

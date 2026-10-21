@@ -22,7 +22,7 @@ export function CommitmentStack() {
     if (!ref.current) return;
     const mm = gsap.matchMedia();
     mm.add(
-      "(min-width: 768px) and (prefers-reduced-motion: no-preference)",
+      "(prefers-reduced-motion: no-preference)",
       () => {
         const cards = gsap.utils.toArray<HTMLElement>(".stack-card");
         cards.forEach((card, i) => {
@@ -53,8 +53,12 @@ export function CommitmentStack() {
       <div className="mx-auto max-w-[1400px] px-4 py-24 md:px-8 md:pb-16 md:pt-32">
         <h2 id="commit-title" className="text-4xl md:text-6xl">How we build</h2>
       </div>
-      {items.map((it) => (
-        <div key={it.title} className={`stack-card flex items-center py-16 md:min-h-[100dvh] md:py-0 ${it.tone}`}>
+      {items.map((it, i) => (
+        <div
+          key={it.title}
+          style={{ zIndex: i + 1 }}
+          className={`stack-card relative flex min-h-[100dvh] items-center ${it.tone}`}
+        >
           <div className="mx-auto grid w-full max-w-[1400px] gap-6 px-4 md:grid-cols-[auto_1fr] md:items-center md:gap-14 md:px-8">
             <it.icon size={72} className="text-accent" />
             <div>

@@ -1,33 +1,43 @@
-export type SlotSource = "render" | "horde" | "openverse" | "plan";
-
-export interface RenderParams {
-  floors: number;
-  seed: number;
-  sky: "day" | "dusk";
-  az: number;
-  el: number;
-  dist: number;
-}
+export type SlotSource = "horde" | "openverse" | "plan";
 
 export interface ImageSlot {
   src: string;
+  /** Final size of the file served on the site */
   w: number;
   h: number;
   source: SlotSource;
   alt: string;
   /** Stable Horde prompt (source "horde") */
   prompt?: string;
+  /** Size requested from Stable Horde when it differs from w x h (anonymous cap is 637 px) */
+  gen?: { w: number; h: number };
+  /** Ask Horde to upscale the result 4x (free, used for large slots) */
+  upscale?: boolean;
   /** Openverse search text (source "openverse") */
   query?: string;
-  /** Tower parameters (source "render") */
-  render?: RenderParams;
 }
 
-const TIME = "soft daylight, architectural photography, wide shot, highly detailed";
-const hordePrompt = {
-  residential: `modern residential apartment building in Dhaka Bangladesh, white concrete facade, lush green planted balconies and terraces, ${TIME}`,
-  commercial: `modern commercial office building in Dhaka Bangladesh, glass and concrete facade with vertical green planters, ${TIME}`,
-  "duplex-villa": `modern two-storey duplex house in Dhaka Bangladesh, white walls, timber screens, garden with palm trees and lawn, ${TIME}`,
+const PHOTO = "wide angle, entire building visible in frame, professional architectural photograph, shot on a full-frame camera, ultra detailed, realistic";
+
+const typeLook = {
+  residential: "modern luxury residential apartment building in Dhaka Bangladesh, white concrete facade with deep green planted balconies and terraces",
+  commercial: "modern commercial office tower in Dhaka Bangladesh, glass and concrete facade with vertical green planters",
+  "duplex-villa": "modern two-storey duplex villa in Dhaka Bangladesh, white walls and timber screens, lush garden with palm trees and lawn",
+} as const;
+
+const DAY = "clear blue sky, soft daylight";
+const DUSK = "at dusk, warm glowing windows, deep blue sky";
+
+const hordeInterior = new Set([
+  "arboretum-residences", "kalpa-business-centre", "purbachal-green-court",
+  "nirjhor-duplexes", "dhanmondi-terraces", "lakeview-villa-row",
+]);
+
+const INTERIOR = "bright natural light, interior design photography, wide angle, highly detailed";
+const hordeInteriorPrompt = {
+  residential: `modern apartment living room in Dhaka Bangladesh, large window, indoor plants, light wooden floor, ${INTERIOR}`,
+  commercial: `modern office reception and lobby, concrete and timber, indoor plants, ${INTERIOR}`,
+  "duplex-villa": `modern duplex house double-height living room with timber staircase and garden view, ${INTERIOR}`,
 } as const;
 
 const interiorQuery = {
@@ -39,30 +49,24 @@ const interiorQuery = {
 interface ProjectPlan {
   slug: string;
   name: string;
-  type: keyof typeof hordePrompt;
-  render: RenderParams;
-  renderAlt: RenderParams;
+  type: keyof typeof typeLook;
+  /** Extra description so each project looks different */
+  look: string;
 }
 
 const projectPlans: ProjectPlan[] = [
   { slug: "arboretum-residences", name: "Arboretum Residences", type: "residential",
-    render: { floors: 13, seed: 11, sky: "day", az: 28, el: 12, dist: 16 },
-    renderAlt: { floors: 13, seed: 11, sky: "dusk", az: -35, el: 9, dist: 15 } },
+    look: "thirteen storeys, corner plot, tree-lined street" },
   { slug: "kalpa-business-centre", name: "Kalpa Business Centre", type: "commercial",
-    render: { floors: 18, seed: 23, sky: "day", az: -24, el: 10, dist: 21 },
-    renderAlt: { floors: 18, seed: 23, sky: "dusk", az: 32, el: 8, dist: 20 } },
+    look: "eighteen storeys, busy city avenue, sky terraces with trees" },
   { slug: "purbachal-green-court", name: "Purbachal Green Court", type: "residential",
-    render: { floors: 10, seed: 37, sky: "day", az: 40, el: 14, dist: 14 },
-    renderAlt: { floors: 10, seed: 37, sky: "day", az: -20, el: 22, dist: 14 } },
+    look: "ten storeys wrapped around a landscaped garden court, wide new-town road" },
   { slug: "nirjhor-duplexes", name: "Nirjhor Duplexes", type: "duplex-villa",
-    render: { floors: 3, seed: 41, sky: "day", az: 30, el: 11, dist: 8 },
-    renderAlt: { floors: 3, seed: 41, sky: "dusk", az: -28, el: 8, dist: 8 } },
+    look: "row of detached homes behind a low garden wall, quiet street" },
   { slug: "dhanmondi-terraces", name: "Dhanmondi Terraces", type: "residential",
-    render: { floors: 9, seed: 53, sky: "day", az: -30, el: 13, dist: 13 },
-    renderAlt: { floors: 9, seed: 53, sky: "dusk", az: 24, el: 10, dist: 13 } },
+    look: "nine storeys, balconies full of plants, leafy residential road" },
   { slug: "lakeview-villa-row", name: "Lakeview Villa Row", type: "duplex-villa",
-    render: { floors: 4, seed: 67, sky: "day", az: 22, el: 12, dist: 9 },
-    renderAlt: { floors: 4, seed: 67, sky: "dusk", az: -34, el: 9, dist: 9 } },
+    look: "four villas with rooftop terraces facing a lake" },
 ];
 
 const slots: ImageSlot[] = [];
@@ -70,30 +74,38 @@ const slots: ImageSlot[] = [];
 for (const p of projectPlans) {
   const base = `/images/projects/${p.slug}`;
   slots.push(
-    { src: `${base}/hero.webp`, w: 1600, h: 1000, source: "render", render: p.render,
+    { src: `${base}/hero.webp`, w: 1600, h: 1000, source: "horde", gen: { w: 576, h: 384 }, upscale: true,
+      prompt: `photograph of a ${typeLook[p.type]}, ${p.look}, ${DAY}, ${PHOTO}`,
       alt: `${p.name}, exterior view in daylight` },
-    { src: `${base}/gallery-1.webp`, w: 1600, h: 1000, source: "render", render: p.renderAlt,
+    { src: `${base}/gallery-1.webp`, w: 1600, h: 1000, source: "horde", gen: { w: 576, h: 384 }, upscale: true,
+      prompt: `photograph of a ${typeLook[p.type]}, ${p.look}, ${DUSK}, ${PHOTO}`,
       alt: `${p.name}, exterior view at dusk` },
-    { src: `${base}/gallery-2.webp`, w: 576, h: 384, source: "horde", prompt: hordePrompt[p.type],
+    { src: `${base}/gallery-2.webp`, w: 576, h: 384, source: "horde",
+      prompt: `${typeLook[p.type]}, soft daylight, architectural photography, wide shot, highly detailed`,
       alt: `${p.name}, street-side impression of the facade and planting` },
-    { src: `${base}/gallery-3.webp`, w: 1200, h: 800, source: "openverse", query: interiorQuery[p.type],
-      alt: `${p.name}, sample interior` },
+    hordeInterior.has(p.slug)
+      ? { src: `${base}/gallery-3.webp`, w: 576, h: 384, source: "horde", prompt: hordeInteriorPrompt[p.type],
+          alt: `${p.name}, sample interior` }
+      : { src: `${base}/gallery-3.webp`, w: 1200, h: 800, source: "openverse", query: interiorQuery[p.type],
+          alt: `${p.name}, sample interior` },
     { src: `${base}/plan.webp`, w: 1200, h: 900, source: "plan",
       alt: `${p.name}, sample typical floor plan` },
   );
 }
 
 slots.push(
-  { src: "/images/site/hero-still.webp", w: 1600, h: 1400, source: "render",
-    render: { floors: 14, seed: 11, sky: "day", az: 28, el: 14, dist: 20 },
-    alt: "Render of a white concrete tower with planted terraces on every few floors" },
-  { src: "/images/site/landowner.webp", w: 2000, h: 1200, source: "render",
-    render: { floors: 12, seed: 71, sky: "dusk", az: 18, el: 7, dist: 19 },
-    alt: "Residential tower at dusk with lit windows and planted terraces" },
-  { src: "/images/site/about.webp", w: 1600, h: 1000, source: "openverse",
-    query: "construction site building", alt: "Team reviewing building plans on a table" },
-  { src: "/images/site/office.webp", w: 1200, h: 900, source: "openverse",
-    query: "office reception desk interior", alt: "Reception area of a modern office" },
+  { src: "/images/site/hero-still.webp", w: 1400, h: 1400, source: "horde", gen: { w: 512, h: 512 }, upscale: true,
+    prompt: `photograph looking up at a modern luxury residential tower in Dhaka Bangladesh, white concrete facade with deep green planted terraces on every few floors, clear blue sky, ${PHOTO}`,
+    alt: "Modern apartment tower with planted terraces against a blue sky" },
+  { src: "/images/site/landowner.webp", w: 2000, h: 1200, source: "horde", gen: { w: 576, h: 384 }, upscale: true,
+    prompt: `photograph of a newly built modern residential building with green terraces beside an open plot of land in Dhaka Bangladesh, ${DUSK}, ${PHOTO}`,
+    alt: "Residential building at dusk with lit windows and planted terraces" },
+  { src: "/images/site/about.webp", w: 576, h: 384, source: "horde",
+    prompt: "architectural scale model of a residential tower and rolled blueprints on a wooden table, studio lighting, close-up, highly detailed",
+    alt: "Architectural model and building plans on a table" },
+  { src: "/images/site/office.webp", w: 576, h: 384, source: "horde",
+    prompt: "modern real estate sales office reception, timber desk, indoor plants, large window, bright natural light, interior design photography, highly detailed",
+    alt: "Reception area of a modern sales office" },
 );
 
 export const imageSlots: ImageSlot[] = slots;

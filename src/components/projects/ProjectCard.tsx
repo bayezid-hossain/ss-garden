@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "motion/react";
 import { statusLabel, typeLabel, type Project } from "@/data/types";
+import { ProjectPeek } from "./ProjectPeek";
 
 export function ProjectCard({ project: p }: { project: Project }) {
   const reduce = useReducedMotion();
@@ -38,6 +39,7 @@ export function ProjectCard({ project: p }: { project: Project }) {
             sizes="(min-width: 768px) 50vw, 100vw"
             className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
+          <ProjectPeek project={p} />
         </div>
         <h2 className="mt-4 text-2xl md:text-3xl">{p.name}</h2>
         <p className="mt-1 text-muted">{p.address}</p>

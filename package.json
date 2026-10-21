@@ -11,7 +11,6 @@
     "fonts": "node scripts/fetch-fonts.mjs",
     "assets:brand": "tsx scripts/make-brand.ts",
     "assets:plans": "tsx scripts/make-plans.ts",
-    "assets:renders": "tsx scripts/capture-renders.ts",
     "assets:placeholders": "tsx scripts/make-placeholders.ts",
     "assets:horde": "tsx scripts/generate-horde.ts",
     "assets:promote": "tsx scripts/promote-horde.ts",
@@ -19,21 +18,17 @@
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
-    "@react-three/drei": "^10.7.9",
-    "@react-three/fiber": "^9.8.2",
     "gsap": "^3.15.0",
     "motion": "^14.5.0",
     "next": "16.4.2",
     "react": "19.3.0",
-    "react-dom": "19.3.0",
-    "three": "^0.186.1"
+    "react-dom": "19.3.0"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "^4",
     "@types/node": "^22.20.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@types/three": "^0.186.0",
     "eslint": "^9",
     "eslint-config-next": "16.4.2",
     "playwright": "^1.64.1",

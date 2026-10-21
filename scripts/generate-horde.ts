@@ -6,20 +6,23 @@ import { imageSlots } from "../src/data/image-plan";
 const API = "https://aihorde.net/api/v2";
 const KEY = process.env.HORDE_API_KEY ?? "0000000000";
 const HEADERS = { apikey: KEY, "Client-Agent": "ssgarden:1:site", "Content-Type": "application/json" };
-const NEGATIVE = "blurry, text, watermark, logo, low quality, cartoon, people, deformed, distorted";
+const NEGATIVE = "cartoon, toy, 3d render, cgi, low poly, illustration, painting, drawing, blurry, text, watermark, logo, low quality, people, deformed, distorted";
 const CANDIDATES = 2;
 const CONCURRENCY = 3;
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-async function submit(prompt: string, w: number, h: number): Promise<string> {
+async function submit(prompt: string, w: number, h: number, upscale: boolean): Promise<string> {
   for (;;) {
     const res = await fetch(`${API}/generate/async`, {
       method: "POST",
       headers: HEADERS,
       body: JSON.stringify({
         prompt: `${prompt} ### ${NEGATIVE}`,
-        params: { width: w, height: h, steps: 25, n: CANDIDATES, sampler_name: "k_euler_a", cfg_scale: 6 },
+        params: {
+          width: w, height: h, steps: 30, n: CANDIDATES, sampler_name: "k_euler_a", cfg_scale: 6,
+          ...(upscale ? { post_processing: ["RealESRGAN_x4plus"] } : {}),
+        },
         nsfw: false, trusted_workers: false, slow_workers: true, r2: true,
       }),
     });
@@ -39,8 +42,8 @@ async function waitDone(id: string) {
   }
 }
 
-async function runSlot(src: string, prompt: string, w: number, h: number) {
-  const id = await submit(prompt, w, h);
+async function runSlot(src: string, prompt: string, w: number, h: number, upscale: boolean) {
+  const id = await submit(prompt, w, h, upscale);
   console.log("submitted", src);
   await waitDone(id);
   const j = await (await fetch(`${API}/generate/status/${id}`)).json();
@@ -62,13 +65,17 @@ async function main() {
   );
   if (KEY === "0000000000") {
     for (const s of slots) {
-      if (s.w > 637 || s.h > 637 || s.w * s.h > 637 * 637) {
-        throw new Error(`${s.src} is ${s.w}x${s.h}; anonymous Horde users are limited to 637x637`);
+      const g = s.gen ?? { w: s.w, h: s.h };
+      if (g.w > 637 || g.h > 637 || g.w * g.h > 637 * 637) {
+        throw new Error(`${s.src} requests ${g.w}x${g.h}; anonymous Horde users are limited to 637x637`);
       }
     }
   }
   for (let i = 0; i < slots.length; i += CONCURRENCY) {
-    await Promise.all(slots.slice(i, i + CONCURRENCY).map((s) => runSlot(s.src, s.prompt!, s.w, s.h)));
+    await Promise.all(slots.slice(i, i + CONCURRENCY).map((s) => {
+      const g = s.gen ?? { w: s.w, h: s.h };
+      return runSlot(s.src, s.prompt!, g.w, g.h, !!s.upscale);
+    }));
   }
 }
 
