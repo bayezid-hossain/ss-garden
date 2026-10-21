@@ -12,7 +12,7 @@ const slides: HeroSlide[] = slideSlugs.flatMap((slug) => {
 
 export function Hero() {
   return (
-    <section className="relative isolate min-h-[100dvh] text-on-image">
+    <section className="relative isolate min-h-[100dvh] text-hero-ink">
       <HeroBanner slides={slides} />
       <div className="relative z-10 mx-auto flex min-h-[100dvh] max-w-[1400px] items-center px-4 pb-24 pt-24 md:px-8">
         <div className="max-w-[760px]">
@@ -20,7 +20,7 @@ export function Hero() {
             <h1 className="text-5xl leading-[1.02] md:text-7xl">Buildings that breathe.</h1>
           </Reveal>
           <Reveal inView={false} delay={0.08}>
-            <p className="mt-6 max-w-[46ch] text-lg text-on-image/90">
+            <p className="mt-6 max-w-[46ch] text-lg text-hero-ink/90">
               SS Garden designs and builds apartments, offices and homes across Dhaka, with green terraces in every plan.
             </p>
           </Reveal>

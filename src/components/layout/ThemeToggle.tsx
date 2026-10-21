@@ -8,7 +8,7 @@ export function ThemeToggle() {
 
   useEffect(() => {
     const t = document.documentElement.dataset.theme;
-    setDark(t ? t === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches);
+    setDark(t ? t === "dark" : true);
   }, []);
 
   function toggle() {

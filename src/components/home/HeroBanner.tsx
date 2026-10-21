@@ -26,7 +26,7 @@ export function HeroBanner({ slides }: { slides: HeroSlide[] }) {
   }, [paused, slides.length]);
 
   return (
-    <div className="absolute inset-0 overflow-hidden bg-scrim">
+    <div className="absolute inset-0 overflow-hidden bg-surface">
       {slides.map((s, i) => (
         <div
           key={s.image.src}
@@ -45,8 +45,9 @@ export function HeroBanner({ slides }: { slides: HeroSlide[] }) {
         </div>
       ))}
 
-      <div className="absolute inset-0 bg-gradient-to-r from-scrim/85 via-scrim/55 to-scrim/10" />
-      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-scrim/70 to-transparent" />
+      <div className="absolute inset-0 bg-hero-scrim/70 md:bg-transparent" />
+      <div className="absolute inset-0 hidden bg-gradient-to-r from-hero-scrim/90 via-hero-scrim/55 to-transparent md:block" />
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-hero-scrim/70 to-transparent" />
 
       {slides.length > 1 && (
         <div
@@ -56,7 +57,7 @@ export function HeroBanner({ slides }: { slides: HeroSlide[] }) {
         >
           <Link
             href={slides[active].href}
-            className="hidden max-w-[28ch] text-sm text-on-image underline-offset-4 hover:underline md:block"
+            className="hidden max-w-[28ch] text-sm text-hero-ink underline-offset-4 hover:underline md:block"
           >
             {slides[active].name}
           </Link>
@@ -68,9 +69,9 @@ export function HeroBanner({ slides }: { slides: HeroSlide[] }) {
                 aria-label={`Show ${s.name}`}
                 aria-current={i === active}
                 onClick={() => setActive(i)}
-                className="flex h-8 w-10 items-end focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-on-image"
+                className="flex h-8 w-10 items-end focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hero-ink"
               >
-                <span className={`block h-0.5 w-full ${i === active ? "bg-on-image" : "bg-on-image/40"}`} />
+                <span className={`block h-0.5 w-full ${i === active ? "bg-hero-ink" : "bg-hero-ink/40"}`} />
               </button>
             ))}
           </div>

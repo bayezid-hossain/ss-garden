@@ -6,7 +6,7 @@ const base =
 const variants = {
   primary: "bg-accent text-accent-ink hover:-translate-y-px",
   secondary: "border border-text text-text hover:bg-text hover:text-bg",
-  onImage: "border border-on-image text-on-image hover:bg-on-image hover:text-scrim",
+  onImage: "border border-hero-ink text-hero-ink hover:bg-hero-ink hover:text-hero-scrim",
 } as const;
 
 export function ButtonLink({

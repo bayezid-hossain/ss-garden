@@ -4,36 +4,6 @@
 /* Palette: Forest Monolith. Stone-green neutrals plus the logo green. One accent only.
    z-index scale: nav 40, dialog uses the browser top layer, render-capture page 100. */
 :root {
-  --bg: #f1f3ee;
-  --surface: #e4e8df;
-  --surface-2: #d6dcd0;
-  --text: #121812;
-  --muted: #465044;
-  --line: #bcc4b5;
-  --field-line: #66705f;
-  --accent: #2b7a16;
-  --accent-ink: #f6faf3;
-  --danger: #a3261b;
-  color-scheme: light;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0e130f;
-    --surface: #161d17;
-    --surface-2: #1f2820;
-    --text: #e8ede6;
-    --muted: #a3ad9f;
-    --line: #2d382e;
-    --field-line: #7f8b7a;
-    --accent: #7fcf4f;
-    --accent-ink: #0e130f;
-    --danger: #ff8f80;
-    color-scheme: dark;
-  }
-}
-
-:root[data-theme="dark"] {
   --bg: #0e130f;
   --surface: #161d17;
   --surface-2: #1f2820;
@@ -44,7 +14,26 @@
   --accent: #7fcf4f;
   --accent-ink: #0e130f;
   --danger: #ff8f80;
+  --hero-scrim: #0b100c;
+  --hero-ink: #f4f7f1;
   color-scheme: dark;
+}
+
+/* Dark is the default. Light applies only when the visitor chooses it. */
+:root[data-theme="light"] {
+  --bg: #f1f3ee;
+  --surface: #e4e8df;
+  --surface-2: #d6dcd0;
+  --text: #121812;
+  --muted: #465044;
+  --line: #bcc4b5;
+  --field-line: #66705f;
+  --accent: #2b7a16;
+  --accent-ink: #f6faf3;
+  --danger: #a3261b;
+  --hero-scrim: #f1f3ee;
+  --hero-ink: #121812;
+  color-scheme: light;
 }
 
 @theme inline {
@@ -58,6 +47,8 @@
   --color-accent: var(--accent);
   --color-accent-ink: var(--accent-ink);
   --color-danger: var(--danger);
+  --color-hero-scrim: var(--hero-scrim);
+  --color-hero-ink: var(--hero-ink);
 }
 
 @theme {
