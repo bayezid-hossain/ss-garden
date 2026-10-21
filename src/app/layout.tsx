@@ -8,7 +8,6 @@ import { site } from "@/data/site";
 export const metadata: Metadata = {
   title: { default: `${site.name} | Builders and developers in Dhaka`, template: `%s | ${site.name}` },
   description: site.description,
-  icons: { icon: "/brand/leaf.webp" },
 };
 
 const themeScript = `try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}`;

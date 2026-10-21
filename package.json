@@ -14,7 +14,8 @@
     "assets:placeholders": "tsx scripts/make-placeholders.ts",
     "assets:horde": "tsx scripts/generate-horde.ts",
     "assets:promote": "tsx scripts/promote-horde.ts",
-    "assets:openverse": "tsx scripts/fetch-openverse.ts"
+    "assets:openverse": "tsx scripts/fetch-openverse.ts",
+    "assets:favicons": "tsx scripts/make-favicons.ts"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
